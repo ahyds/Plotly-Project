@@ -1,4 +1,6 @@
-d3.json("./samples.json").then(function(d) {
+var fileurl = "https://raw.githubusercontent.com/ahyds/Plotly-Project/master/static/samples.json";
+
+d3.json(fileurl).then(function(d) {
   function buildMetadata(sample) {
 
     //d3.json("./samples.json").then(function(d) {
@@ -9,7 +11,7 @@ d3.json("./samples.json").then(function(d) {
       // Use `Object.entries` to add each key and value pair to the panel
       // Hint: Inside the loop, you will need to use d3 to append new
       // tags for each key-value in the metadata.
-        Object.entries(d.sample[0]).forEach(function([key,value]){
+        Object.entries(d.metadata[0]).forEach(function([key,value]){
           var row = sampleData.append("p");
           row.text(`${key}:${value}`)
         })
@@ -95,17 +97,17 @@ function init() {
             });
 
         // Use the first sample to build initial chart
-        const firstSample = d.samples[0];
+        const sample0 = d.samples[0];
    
-        buildCharts(firstSample); 
-   
-        buildMetadata(firstSample);
+        buildCharts(sample0); 
+        buildMetadata(sample0);
     //});
 }; 
 
- function optionChanged(newSample) {
+ function optionChanged(newName) {
+        var newSample = d.filter(element => element.samples.id === newName)
         buildCharts(newSample);
-        //buildMetadata(newSample);
+        buildMetadata(newSample);
  };
 
 // Initialize 
